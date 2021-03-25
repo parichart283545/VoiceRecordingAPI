@@ -89,6 +89,8 @@ namespace VoiceRecordAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IVoiceRecordDetailService, VoiceRecordDetailService>();
+            services.AddScoped<ICallTypeService, CallTypeService>();
+            services.AddScoped<IVoiceRecordProvidersService, VoiceRecordProvidersService>();
             //------End: Service------
 
             AddFormatters(services);

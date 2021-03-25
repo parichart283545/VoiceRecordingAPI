@@ -12,10 +12,12 @@ namespace VoiceRecordAPI.DTOs
         public DateTime FileCreateDatetime { get; set; }
         public DateTime FileModifyDatetime { get; set; }
         public string FileName { get; set; }
-        public string FilePath { get; set; }
+        //public string FilePath { get; set; }
         public string FullPath { get; set; }
         public string URLPath { get; set; }
         public DateTime CreatedDate { get; set; }
         public int VoiceRecordProvidersId { get; set; }
+        public int CallTypeId { get; set; }
+
     }
 }
