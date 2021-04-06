@@ -50,7 +50,9 @@ namespace VoiceRecordAPI.Data
                     new VoiceRecordConfigurations(){ParameterName="EricssonPath", ValueString=""},
                     new VoiceRecordConfigurations(){ParameterName="EricssonPathFormat", ValueString=""},
                     new VoiceRecordConfigurations(){ParameterName="EricssonFileFormatCallOut", ValueString="DateTime-Extentions"},
-                    new VoiceRecordConfigurations(){ParameterName="EricssonFileFormatCallIn", ValueString="DateTime-Extentions"}
+                    new VoiceRecordConfigurations(){ParameterName="EricssonFileFormatCallIn", ValueString="DateTime-Extentions"},
+                    new VoiceRecordConfigurations(){ParameterName="URLTimeout", ValueString="Day", ValueNumber=7,Remark="ValueString is unit name (minute,hour,day,month,year) ,ValueNumber is value "},
+                    new VoiceRecordConfigurations(){ParameterName="WebDomainFormat", ValueString="http://localhost:50314/AudioPlayer/AudioPlayer?id={GUID}",Remark="Web client format for media player client"}
                 }
             );
 
@@ -58,23 +60,20 @@ namespace VoiceRecordAPI.Data
                 new List<CallType>()
                 {
                     //new CallType(){Id=3,Detail = "Unknown",IsActive = true,Remark="Unknown Type"},
-                    new CallType(){Id=1,Detail = "Call-In",IsActive = true,Remark="Income calling"},
-                    new CallType(){Id=2,Detail = "Call-Out",IsActive = true,Remark="Outcome calling"}
+                    new CallType(){Id=1,Detail = "Inbound",IsActive = true,Remark="Inbound calling"},
+                    new CallType(){Id=2,Detail = "Outbound",IsActive = true,Remark="Outbound calling"},
+                    new CallType(){Id=3,Detail = "Unknow",IsActive = true,Remark="Unknow"}
                 }
             );
 
         }
-
         public DbSet<User> Users { get; set; }
-
         public DbSet<Role> Roles { get; set; }
-
         public DbSet<UserRole> UserRoles { get; set; }
-
-
         public DbSet<VoiceRecordDetails> VoiceRecordDetails { get; set; }
         public DbSet<VoiceRecordProviders> VoiceRecordProviders { get; set; }
         public DbSet<VoiceRecordConfigurations> VoiceRecordConfigurations { get; set; }
         public DbSet<CallType> CallTypes { get; set; }
+        public DbSet<VoiceRecordURLRequest> VoiceRecordURLRequests { get; set; }
     }
 }

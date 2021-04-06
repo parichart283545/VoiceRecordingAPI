@@ -97,3 +97,13 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Deb
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.pdb
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.genruntimeconfig.cache
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\VoiceRecordAPI.Views.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\VoiceRecordAPI.Views.pdb
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.RazorAssemblyInfo.cache
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.RazorAssemblyInfo.cs
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.TagHelpers.input.cache
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.TagHelpers.output.cache
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.RazorCoreGenerate.cache
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\Razor\Views\VoiceRecordDetail\Index.cshtml.g.cs
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.RazorTargetAssemblyInfo.cs
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.Views.pdb

@@ -91,8 +91,8 @@ namespace VoiceRecordAPI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExtensionNo = table.Column<int>(nullable: false),
-                    IncomingNo = table.Column<string>(nullable: true),
-                    OutgoingNo = table.Column<string>(nullable: true),
+                    PhoneNumberFrom = table.Column<string>(nullable: true),
+                    PhoneNumberTo = table.Column<string>(nullable: true),
                     DatetimeFileName = table.Column<DateTime>(nullable: false),
                     FileCreateDatetime = table.Column<DateTime>(nullable: false),
                     FileModifyDatetime = table.Column<DateTime>(nullable: false),
@@ -100,7 +100,6 @@ namespace VoiceRecordAPI.Migrations
                     FilePath = table.Column<string>(maxLength: 4096, nullable: true),
                     FullPath = table.Column<string>(maxLength: 4096, nullable: true),
                     URLPath = table.Column<string>(maxLength: 4096, nullable: true),
-                    FileSize = table.Column<float>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     VoiceRecordProvidersId = table.Column<int>(nullable: false),
                     CallTypeId = table.Column<int>(nullable: false)
@@ -149,13 +148,36 @@ namespace VoiceRecordAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "VoiceRecordURLRequest",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    VoiceRecordDetailId = table.Column<int>(nullable: false),
+                    VoiceRecordDetailURL = table.Column<string>(maxLength: 4096, nullable: true),
+                    ResponseURL = table.Column<string>(maxLength: 4096, nullable: true),
+                    CreatedDatetime = table.Column<DateTime>(nullable: false),
+                    ExpireDatetime = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VoiceRecordURLRequest", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VoiceRecordURLRequest_VoiceRecordDetails_VoiceRecordDetailId",
+                        column: x => x.VoiceRecordDetailId,
+                        principalTable: "VoiceRecordDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "CallType",
                 columns: new[] { "Id", "Detail", "IsActive", "Remark" },
                 values: new object[,]
                 {
-                    { 1, "Call-In", true, "Income calling" },
-                    { 2, "Call-Out", true, "Outcome calling" }
+                    { 1, "Inbound", true, "Inbound calling" },
+                    { 2, "Outbound", true, "Outbound calling" },
+                    { 3, "Unknow", true, "Unknow" }
                 });
 
             migrationBuilder.InsertData(
@@ -163,14 +185,16 @@ namespace VoiceRecordAPI.Migrations
                 columns: new[] { "ParameterName", "Remark", "ValueBoolean", "ValueDatetime", "ValueNumber", "ValueString" },
                 values: new object[,]
                 {
-                    { "ThreeCXPath", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
-                    { "ThreeCXPathFormat", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
-                    { "ThreeCXFileFormatCallOut", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "[DisplayName]_Extension-CalledNumber_YearMonthDayHourMinuteSecond(InternalCallIdentifier)" },
-                    { "ThreeCXFileFormatCallIn", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "[Extension%3ACalledNumber]_CalledNumber-Extension_YearMonthDayHourMinuteSecond(InternalCallIdentifier)" },
-                    { "EricssonPath", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
-                    { "EricssonPathFormat", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
+                    { "WebDomainFormat", "Web client format for media player client", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "Http://xxxxxx/{GUID}" },
+                    { "URLTimeout", "ValueString is unit name (minute,hour,day,month,year) ,ValueNumber is value ", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 7f, "Day" },
+                    { "EricssonFileFormatCallIn", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "DateTime-Extentions" },
                     { "EricssonFileFormatCallOut", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "DateTime-Extentions" },
-                    { "EricssonFileFormatCallIn", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "DateTime-Extentions" }
+                    { "EricssonPathFormat", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
+                    { "EricssonPath", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
+                    { "ThreeCXFileFormatCallIn", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "[Extension%3ACalledNumber]_CalledNumber-Extension_YearMonthDayHourMinuteSecond(InternalCallIdentifier)" },
+                    { "ThreeCXFileFormatCallOut", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "[DisplayName]_Extension-CalledNumber_YearMonthDayHourMinuteSecond(InternalCallIdentifier)" },
+                    { "ThreeCXPathFormat", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" },
+                    { "ThreeCXPath", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0f, "" }
                 });
 
             migrationBuilder.InsertData(
@@ -188,10 +212,10 @@ namespace VoiceRecordAPI.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("92ffbb62-3a06-45f7-bf4b-17a9ca3a89d5"), "user" },
-                    { new Guid("232974b2-e3d0-4a6a-b1e6-d60b5bf56242"), "Manager" },
-                    { new Guid("5be0b8b7-09a0-4950-a702-9cf6ff0c8c3c"), "Admin" },
-                    { new Guid("7444a088-1ab2-4c96-af22-3dfeffb95cce"), "Developer" }
+                    { new Guid("fd1dc1d4-ce08-475a-95df-2bab9a0d0a82"), "Developer" },
+                    { new Guid("4205fa1c-00a9-4978-8948-995d7aba7862"), "Admin" },
+                    { new Guid("27ff4c51-f0ca-4b67-8513-4879cb13b0f3"), "Manager" },
+                    { new Guid("c20e34f7-3fc4-4e65-8c2b-b1b8d2ba2cfc"), "user" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -203,6 +227,11 @@ namespace VoiceRecordAPI.Migrations
                 name: "IX_VoiceRecordDetails_VoiceRecordProvidersId",
                 table: "VoiceRecordDetails",
                 column: "VoiceRecordProvidersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoiceRecordURLRequest_VoiceRecordDetailId",
+                table: "VoiceRecordURLRequest",
+                column: "VoiceRecordDetailId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
@@ -217,17 +246,14 @@ namespace VoiceRecordAPI.Migrations
                 name: "VoiceRecordConfigurations");
 
             migrationBuilder.DropTable(
-                name: "VoiceRecordDetails");
+                name: "VoiceRecordURLRequest");
 
             migrationBuilder.DropTable(
                 name: "UserRole",
                 schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "CallType");
-
-            migrationBuilder.DropTable(
-                name: "VoiceRecordProviders");
+                name: "VoiceRecordDetails");
 
             migrationBuilder.DropTable(
                 name: "Role",
@@ -236,6 +262,12 @@ namespace VoiceRecordAPI.Migrations
             migrationBuilder.DropTable(
                 name: "User",
                 schema: "auth");
+
+            migrationBuilder.DropTable(
+                name: "CallType");
+
+            migrationBuilder.DropTable(
+                name: "VoiceRecordProviders");
         }
     }
 }

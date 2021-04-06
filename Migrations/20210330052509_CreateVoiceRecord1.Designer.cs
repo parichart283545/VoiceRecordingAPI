@@ -10,7 +10,7 @@ using VoiceRecordAPI.Data;
 namespace VoiceRecordAPI.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20210323073416_CreateVoiceRecord1")]
+    [Migration("20210330052509_CreateVoiceRecord1")]
     partial class CreateVoiceRecord1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,16 +47,23 @@ namespace VoiceRecordAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Detail = "Call-In",
+                            Detail = "Inbound",
                             IsActive = true,
-                            Remark = "Income calling"
+                            Remark = "Inbound calling"
                         },
                         new
                         {
                             Id = 2,
-                            Detail = "Call-Out",
+                            Detail = "Outbound",
                             IsActive = true,
-                            Remark = "Outcome calling"
+                            Remark = "Outbound calling"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Detail = "Unknow",
+                            IsActive = true,
+                            Remark = "Unknow"
                         });
                 });
 
@@ -78,22 +85,22 @@ namespace VoiceRecordAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("92ffbb62-3a06-45f7-bf4b-17a9ca3a89d5"),
+                            Id = new Guid("c20e34f7-3fc4-4e65-8c2b-b1b8d2ba2cfc"),
                             Name = "user"
                         },
                         new
                         {
-                            Id = new Guid("232974b2-e3d0-4a6a-b1e6-d60b5bf56242"),
+                            Id = new Guid("27ff4c51-f0ca-4b67-8513-4879cb13b0f3"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("5be0b8b7-09a0-4950-a702-9cf6ff0c8c3c"),
+                            Id = new Guid("4205fa1c-00a9-4978-8948-995d7aba7862"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("7444a088-1ab2-4c96-af22-3dfeffb95cce"),
+                            Id = new Guid("fd1dc1d4-ce08-475a-95df-2bab9a0d0a82"),
                             Name = "Developer"
                         });
                 });
@@ -225,6 +232,24 @@ namespace VoiceRecordAPI.Migrations
                             ValueDatetime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ValueNumber = 0f,
                             ValueString = "DateTime-Extentions"
+                        },
+                        new
+                        {
+                            ParameterName = "URLTimeout",
+                            Remark = "ValueString is unit name (minute,hour,day,month,year) ,ValueNumber is value ",
+                            ValueBoolean = false,
+                            ValueDatetime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValueNumber = 7f,
+                            ValueString = "Day"
+                        },
+                        new
+                        {
+                            ParameterName = "WebDomainFormat",
+                            Remark = "Web client format for media player client",
+                            ValueBoolean = false,
+                            ValueDatetime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValueNumber = 0f,
+                            ValueString = "Http://xxxxxx/{GUID}"
                         });
                 });
 
@@ -261,17 +286,14 @@ namespace VoiceRecordAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(4096);
 
-                    b.Property<float>("FileSize")
-                        .HasColumnType("real");
-
                     b.Property<string>("FullPath")
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(4096);
 
-                    b.Property<string>("IncomingNo")
+                    b.Property<string>("PhoneNumberFrom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OutgoingNo")
+                    b.Property<string>("PhoneNumberTo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("URLPath")
@@ -329,6 +351,36 @@ namespace VoiceRecordAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VoiceRecordAPI.Models.VoiceRecordURLRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDatetime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpireDatetime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResponseURL")
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(4096);
+
+                    b.Property<int>("VoiceRecordDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VoiceRecordDetailURL")
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(4096);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VoiceRecordDetailId");
+
+                    b.ToTable("VoiceRecordURLRequest");
+                });
+
             modelBuilder.Entity("VoiceRecordAPI.Models.UserRole", b =>
                 {
                     b.HasOne("VoiceRecordAPI.Models.Role", "Role")
@@ -355,6 +407,15 @@ namespace VoiceRecordAPI.Migrations
                     b.HasOne("VoiceRecordAPI.Models.VoiceRecordProviders", "VoiceRecordProvider")
                         .WithMany()
                         .HasForeignKey("VoiceRecordProvidersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VoiceRecordAPI.Models.VoiceRecordURLRequest", b =>
+                {
+                    b.HasOne("VoiceRecordAPI.Models.VoiceRecordDetails", "voiceRecordDetail")
+                        .WithMany()
+                        .HasForeignKey("VoiceRecordDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

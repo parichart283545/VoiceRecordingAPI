@@ -22,6 +22,8 @@ namespace VoiceRecordAPI
             CreateMap<VoiceRecordDetails, GetVoiceRecordDetail>();
             CreateMap<CallType, GetCallTypes>().ForMember(x => x.Value, x => x.MapFrom(x => x.Detail));
             CreateMap<VoiceRecordProviders, GetVoiceRecordProviders>().ForMember(x => x.Value, x => x.MapFrom(x => x.Detail));
+            CreateMap<VoiceRecordURLRequest, GetVoiceRecordURLRequest>();
+            CreateMap<VoiceRecordURLRequest, InsertVoiceRecordURLRequest>();
         }
     }
 }

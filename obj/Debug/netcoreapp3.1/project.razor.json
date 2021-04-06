@@ -14390,6 +14390,12 @@
     "CSharpLanguageVersion": 800
   },
   "RootNamespace": "VoiceRecordAPI",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "d:\\Research Project\\Voice Recoder Get Path\\VoiceRecordAPI\\VoiceRecordAPI\\Views\\VoiceRecordDetail\\Index.cshtml",
+      "TargetPath": "Views\\VoiceRecordDetail\\Index.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }
