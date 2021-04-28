@@ -12,8 +12,8 @@ namespace VoiceRecordAPI.Services
         Task<ServiceResponse<string>> GetVoiceRecordURL(string voiceId);
         Task<ServiceResponse<string>> GetVoiceRecordFileByGuid(string guidStr);
         //int? AgentId,int? CallType, DateTime StartDT,DateTime EndDT
-        Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLParam(int? ExtensionNo, int? CallType, DateTime StartDT, DateTime EndDT);
-        Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLByReceived(int? ExtensionNo, int? CallType, DateTime DT);
+        Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLParam(string ExtensionNo, int? CallType, DateTime StartDT, DateTime EndDT);
+        Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLByReceived(string ExtensionNo, int? CallType, DateTime DT);
         Task<ServiceResponse<string>> GetVoiceRecordURLWithFilter(RequestParams filter);
     }
 }

@@ -10,7 +10,8 @@ namespace VoiceRecordAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int ExtensionNo { get; set; }
+        [MaxLength(20)]
+        public string ExtensionNo { get; set; }
         public string PhoneNumberFrom { get; set; }
         public string PhoneNumberTo { get; set; }
         public DateTime DatetimeFileName { get; set; }

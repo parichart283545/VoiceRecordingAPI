@@ -139,14 +139,14 @@ namespace VoiceRecordAPI.Controllers
         }
 
         [HttpGet("voicerecordlst")]
-        public async Task<IActionResult> GetVoiceRecordLst(int? ExtensionId, int? CallType, DateTime ReceivedStartDatetime, DateTime ReceivedEndDatetime)
+        public async Task<IActionResult> GetVoiceRecordLst(string ExtensionId , int? CallType, DateTime ReceivedStartDatetime, DateTime ReceivedEndDatetime)
         {
             var result = await _voiceRecordDetailService.GetVoiceRecordURLParam(ExtensionId, CallType, ReceivedStartDatetime, ReceivedEndDatetime);
             return Ok(result);
         }
 
         [HttpGet("voicerecordbyreceived")]
-        public async Task<IActionResult> GetVoiceRecordByReceived(int? ExtensionId, int? CallType, DateTime ReceivedDatetime)
+        public async Task<IActionResult> GetVoiceRecordByReceived(string ExtensionId, int? CallType, DateTime ReceivedDatetime)
         {
             var result = await _voiceRecordDetailService.GetVoiceRecordURLByReceived(ExtensionId, CallType, ReceivedDatetime);
             return Ok(result);

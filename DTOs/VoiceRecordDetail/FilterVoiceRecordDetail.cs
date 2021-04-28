@@ -5,7 +5,7 @@ namespace VoiceRecordAPI.DTOs
 {
     public class FilterVoiceRecordDetail : PaginationDto
     {
-        public int? ExtensionNo { get; set; }// null is all
+        public string ExtensionNo { get; set; }// null is all
         [Required]
         public DateTime StartDate { get; set; } //datetime start of create file
         [Required]

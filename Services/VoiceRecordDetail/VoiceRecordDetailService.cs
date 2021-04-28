@@ -100,7 +100,7 @@ namespace VoiceRecordAPI.Services
             return ResponseResult.Success(VoiceDto.FullPath);//Testing
         }
 
-        public async Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLByReceived(int? ExtensionNo, int? CallType, DateTime DT)
+        public async Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLByReceived(string ExtensionNo, int? CallType, DateTime DT)
         {
             var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
 
@@ -129,7 +129,7 @@ namespace VoiceRecordAPI.Services
             return ResponseResult.Success(VoiceDto);
         }
 
-        public async Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLParam(int? ExtensionNo, int? CallType, DateTime StartDT, DateTime EndDT)
+        public async Task<ServiceResponse<List<GetVoiceRecordDetail>>> GetVoiceRecordURLParam(string ExtensionNo, int? CallType, DateTime StartDT, DateTime EndDT)
         {
             var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
 
@@ -183,7 +183,7 @@ namespace VoiceRecordAPI.Services
             if (!string.IsNullOrEmpty(filter.ExtensionId))
             {
                 if (!int.TryParse(filter.ExtensionId, out int n2)) { return ResponseResult.Failure<string>("ExtensionId is not numeric"); }
-                queryable = queryable.Where(x => x.ExtensionNo == Convert.ToInt32(filter.ExtensionId));
+                queryable = queryable.Where(x => x.ExtensionNo == filter.ExtensionId);
             }
             //CallType
             if (!(filter.CallTypeId is null))
