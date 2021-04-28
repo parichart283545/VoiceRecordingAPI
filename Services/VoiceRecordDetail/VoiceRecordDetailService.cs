@@ -86,10 +86,10 @@ namespace VoiceRecordAPI.Services
             var queryable = await _dBContext.VoiceRecordDetails.Where(x => x.Id == Convert.ToInt32(voiceId)).AsNoTracking().FirstOrDefaultAsync();
             if (queryable is null) { return ResponseResult.Success<string>(""); }
             //Testing begin
-            if (!Directory.Exists(queryable.FilePath))
-                Directory.CreateDirectory(queryable.FilePath);
-            if (!File.Exists(queryable.FullPath))
-                File.Copy("D:\\Record\\[หญิง 0969426936]_1009-0853652569_202103191022(12345).wav", queryable.FullPath);
+            // if (!Directory.Exists(queryable.FilePath))
+            //     Directory.CreateDirectory(queryable.FilePath);
+            // if (!File.Exists(queryable.FullPath))
+            //     File.Copy("D:\\Record\\[หญิง 0969426936]_1009-0853652569_202103191022(12345).wav", queryable.FullPath);
             //Testing end
 
             var VoiceDto = _mapper.Map<GetVoiceRecordDetail>(queryable);

@@ -146,3 +146,4 @@ Microsoft.Data.SqlClient.SqlException (0x80131904): Login failed for user 'devel
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 ClientConnectionId:7e72d7e6-8d34-4527-9399-097e2c93854e
 Error Number:18456,State:1,Class:14
+2021-04-28 14:39:25.832 +07:00 [INF] Starting web host
