@@ -195,9 +195,14 @@ namespace VoiceRecordAPI.Services
 
             //ringgingDatetime 
             //receivedDatetime +- no more 5 minutes
-            queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.AddMinutes(1));
+            if (filter.ReceivedDatetime != null)
+            { queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1)); }
+
             //endDatetime
-            queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.AddMinutes(1));
+            if (filter.EndDatetime != null)
+            {
+                queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+            }
 
             //SystemName
             if (!string.IsNullOrEmpty(filter.SystemId))
@@ -288,10 +293,14 @@ namespace VoiceRecordAPI.Services
             if (queryable is null) { return ResponseResult.Success<string>(""); }
             if (queryable.ExpireDatetime <= DateTime.Now)
             {
-
                 return ResponseResult.Success("Expired");
             }
-            else return ResponseResult.Success(queryable.VoiceRecordDetailURL);//
+            else
+            {
+                if (!File.Exists(queryable.VoiceRecordDetailURL))
+                    return ResponseResult.Success<string>("");
+                else return ResponseResult.Success(queryable.VoiceRecordDetailURL);
+            }
         }
     }
 }

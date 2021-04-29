@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VoiceRecordAPI.DTOs;
 using VoiceRecordAPI.Services;
-
 namespace VoiceRecordAPI.Controllers
 {
     [ApiController]
@@ -30,7 +29,7 @@ namespace VoiceRecordAPI.Controllers
         // }
 
         [HttpGet("voicerecordfilebyidTest")]
-        public async Task<IActionResult> GetVoiceRecordFileByIdTest(string Id)
+        private async Task<IActionResult> GetVoiceRecordFileByIdTest(string Id)
         {
             string contentType = "audio/wav";
             // //Create byte array
@@ -96,7 +95,7 @@ namespace VoiceRecordAPI.Controllers
         }
 
         [HttpGet("voicerecordfilebyid")]
-        public async Task<IActionResult> GetVoiceRecordFileById(string Id)
+        private async Task<IActionResult> GetVoiceRecordFileById(string Id)
         {
             if (string.IsNullOrEmpty(Id)) { return NoContent(); }
             string contentType = "audio/wav";
@@ -139,21 +138,21 @@ namespace VoiceRecordAPI.Controllers
         }
 
         [HttpGet("voicerecordlst")]
-        public async Task<IActionResult> GetVoiceRecordLst(string ExtensionId , int? CallType, DateTime ReceivedStartDatetime, DateTime ReceivedEndDatetime)
+        private async Task<IActionResult> GetVoiceRecordLst(string ExtensionId , int? CallType, DateTime ReceivedStartDatetime, DateTime ReceivedEndDatetime)
         {
             var result = await _voiceRecordDetailService.GetVoiceRecordURLParam(ExtensionId, CallType, ReceivedStartDatetime, ReceivedEndDatetime);
             return Ok(result);
         }
 
         [HttpGet("voicerecordbyreceived")]
-        public async Task<IActionResult> GetVoiceRecordByReceived(string ExtensionId, int? CallType, DateTime ReceivedDatetime)
+        private async Task<IActionResult> GetVoiceRecordByReceived(string ExtensionId, int? CallType, DateTime ReceivedDatetime)
         {
             var result = await _voiceRecordDetailService.GetVoiceRecordURLByReceived(ExtensionId, CallType, ReceivedDatetime);
             return Ok(result);
         }
 
         [HttpGet("voicerecordfile")]
-        public async Task<IActionResult> GetVoiceRecordFile([FromQuery] RequestParams filter)
+        private async Task<IActionResult> GetVoiceRecordFile([FromQuery] RequestParams filter)
         {
             string contentType = "audio/wav";
             var result = await _voiceRecordDetailService.GetVoiceRecordURLWithFilter(filter);
