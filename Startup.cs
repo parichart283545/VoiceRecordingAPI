@@ -105,20 +105,21 @@ namespace VoiceRecordAPI
             }
 
             //------Swagger------
-            app.UseSwagger();
+            //app.UseSwagger();
+            app.UseSwagger(config =>
+            {
+                config.PreSerializeFilters.Add((swagger, httpRequest) =>
+                {
+                    swagger.Servers.Clear();
+                });
+            });
 
             app.UseSwaggerUI(config => config.SwaggerEndpoint("/swagger/v1/swagger.json", _projectName));
-            //------Swagger------
-            // app.UseSwagger(config =>
-            // {
-            //     config.PreSerializeFilters.Add((swagger, httpRequest) =>
-            //     {
-            //         swagger.Servers.Clear();
-            //     });
-            // });
+
+
             //------End: Swagger------
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
