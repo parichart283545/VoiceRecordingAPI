@@ -69,12 +69,10 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Deb
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
-D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Linq.Dynamic.Core.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
-D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
@@ -82,7 +80,6 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Deb
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
-D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.csprojAssemblyReference.cache
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.AssemblyInfoInputs.cache
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.AssemblyInfo.cs
@@ -107,3 +104,13 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Deb
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\Razor\Views\VoiceRecordDetail\Index.cshtml.g.cs
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.RazorTargetAssemblyInfo.cs
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Debug\netcoreapp3.1\VoiceRecordAPI.Views.pdb
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\libmp3lame.32.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\libmp3lame.64.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.Asio.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.Core.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.Lame.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.Midi.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.Wasapi.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.WinForms.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Debug\netcoreapp3.1\NAudio.WinMM.dll

@@ -6,6 +6,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NAudio.Lame;
+using NAudio.Wave;
 using VoiceRecordAPI.DTOs;
 using VoiceRecordAPI.Services;
 namespace VoiceRecordAPI.Controllers
@@ -59,7 +61,7 @@ namespace VoiceRecordAPI.Controllers
         public async Task<IActionResult> GetVoiceRecordFileByGuid(string guid)
         {
             if (string.IsNullOrEmpty(guid)) { return NotFound(); }
-            string contentType = "audio/wav";
+            string contentType = "video/mp4";
 
             var result = await _voiceRecordDetailService.GetVoiceRecordFileByGuid(guid);
             if (string.IsNullOrEmpty(result.Data)) { return NotFound(); }
