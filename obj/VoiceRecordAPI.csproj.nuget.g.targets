@@ -5,5 +5,7 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
+    <Import Project="$(NuGetPackageRoot)naudio.lame\2.0.0\build\NAudio.Lame.targets" Condition="Exists('$(NuGetPackageRoot)naudio.lame\2.0.0\build\NAudio.Lame.targets')" />
+    <Import Project="$(NuGetPackageRoot)csaudioconverter\1.1.3\build\CSAudioConverter.targets" Condition="Exists('$(NuGetPackageRoot)csaudioconverter\1.1.3\build\CSAudioConverter.targets')" />
   </ImportGroup>
 </Project>
