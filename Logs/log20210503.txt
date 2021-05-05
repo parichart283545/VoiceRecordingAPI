@@ -23,3 +23,6 @@ System.IO.DirectoryNotFoundException: Could not find a part of the path 'D:\Dumm
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-05-03 13:36:46.123 +07:00 [INF] Starting web host
+2021-05-03 15:07:30.268 +07:00 [INF] Starting web host
+2021-05-03 15:24:36.102 +07:00 [INF] Starting web host

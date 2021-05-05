@@ -13,6 +13,7 @@ using VoiceRecordAPI.Helpers;
 using System;
 using System.IO;
 using System.Text;
+using System.Net;
 
 namespace VoiceRecordAPI.Services
 {
@@ -219,7 +220,55 @@ namespace VoiceRecordAPI.Services
             //insert request url log
             var newUrl = InsertVoiceRecordURL(dto.Id, dto.FullPath);
 
-            return ResponseResult.Success(newUrl.ResponseURL);
+            if (newUrl.VoiceRecordDetailURL.Contains("http"))
+            {
+                //test get url is exist
+                bool exist = false;
+                try
+                {
+                    HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(newUrl.VoiceRecordDetailURL);
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        exist = response.StatusCode == HttpStatusCode.OK;
+                    }
+                }
+                catch
+                {
+                    return ResponseResult.Success("");
+                }
+
+                if (exist)
+                {
+                     return ResponseResult.Success(newUrl.ResponseURL);
+                }
+                return ResponseResult.Success("");
+            }
+            else
+            {
+                if (System.IO.File.Exists(newUrl.VoiceRecordDetailURL))
+                {
+                    return ResponseResult.Success(newUrl.ResponseURL);
+                }
+                else //find in virtual directory
+                {
+                    WebClient Client = null;
+                    Stream OutputStream = null;
+                    try
+                    {
+                        Client = new WebClient();
+                        Client.Credentials = new NetworkCredential("develop", "pn,9y'8Nlv'ihvp");
+                        OutputStream = Client.OpenRead(newUrl.VoiceRecordDetailURL);
+                        if (!OutputStream.CanRead)
+                            return ResponseResult.Success("");
+                        else return ResponseResult.Success(newUrl.ResponseURL);
+                    }
+                    catch
+                    {
+                        return ResponseResult.Success("") ;
+                    }
+                };
+            }
+
         }
 
         public DateTime GetExpireDatetime(DateTime createDT, string typeString, int value)
@@ -297,9 +346,10 @@ namespace VoiceRecordAPI.Services
             }
             else
             {
-                if (!File.Exists(queryable.VoiceRecordDetailURL))
-                    return ResponseResult.Success<string>("");
-                else return ResponseResult.Success(queryable.VoiceRecordDetailURL);
+                return ResponseResult.Success(queryable.VoiceRecordDetailURL);
+                // if (!File.Exists(queryable.VoiceRecordDetailURL))
+                //     return ResponseResult.Success<string>("");
+                // else return ResponseResult.Success(queryable.VoiceRecordDetailURL);
             }
         }
 
@@ -359,9 +409,10 @@ namespace VoiceRecordAPI.Services
 
             //insert request url log
             var reesultInsert = InsertVoiceRecordURL(dto.Id, dto.FullPath);
-            if (!File.Exists(reesultInsert.VoiceRecordDetailURL))
-                return ResponseResult.Success<string>("");
-            else return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
+            return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
+            // if (!File.Exists(reesultInsert.VoiceRecordDetailURL))
+            //     return ResponseResult.Success<string>("");
+            // else return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
 
         }
     }

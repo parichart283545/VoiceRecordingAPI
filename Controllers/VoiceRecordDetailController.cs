@@ -7,8 +7,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NAudio.Lame;
-using NAudio.Wave;
 using VoiceRecordAPI.DTOs;
 using VoiceRecordAPI.Services;
 namespace VoiceRecordAPI.Controllers
@@ -92,23 +90,30 @@ namespace VoiceRecordAPI.Controllers
             }
             else
             {
-                var fileStream = File(System.IO.File.OpenRead(result.Data), contentType);
+                FileStreamResult fileStream = null;
+                if (System.IO.File.Exists(result.Data))
+                {
+                    fileStream = File(System.IO.File.OpenRead(result.Data), contentType, Path.GetFileName(result.Data));
+                }
+                else //find in virtual directory
+                {
+                    WebClient Client = null;
+                    Stream OutputStream = null;
+                    try
+                    {
+                        Client = new WebClient();
+                        Client.Credentials = new NetworkCredential("develop", "pn,9y'8Nlv'ihvp");
+                        OutputStream = Client.OpenRead(result.Data);
+                        if (!OutputStream.CanRead)
+                            return NotFound();
+                        fileStream = File(OutputStream, contentType, Path.GetFileName(result.Data));
+                    }
+                    catch
+                    {
+                        return NotFound();
+                    }
+                };
                 return fileStream;
-                // var sysys = System.IO.File.ReadAllBytes("D:\\SoundFile3CX\\1001\\[Witcha Yawichai]_1001-0898923246_20210330085027(78).wav");
-                // var target = new WaveFormat(8000, 16, 1);
-                // using (var outPutStream = new MemoryStream())
-                // using (var waveStream = new WaveFileReader(new MemoryStream(sysys)))
-                // using (var conversionStream = new WaveFormatConversionStream(target, waveStream))
-                // using (var writer = new LameMP3FileWriter(outPutStream, conversionStream.WaveFormat, 32, null))
-                // {
-                //     conversionStream.CopyTo(writer);
-                //     //return outPutStream.ToArray();
-                //     var fileStream = File(outPutStream.ToArray(), contentType);
-                //     return fileStream;
-                // }
-
-
-
             }
         }
 
@@ -204,23 +209,11 @@ namespace VoiceRecordAPI.Controllers
         [HttpGet("voicerecordurl")]
         public async Task<IActionResult> GetVoiceRecordURL([FromQuery] RequestParams filter)
         {
-            // string MyBatchFile = @"D:\My Test Code\ConsoleApp2\ConsoleApp2\bin\Debug\ConsoleApp2.exe";
-            // string _sourcePath = @"D:\SoundFile3CX\1001\[Nukul Dangsompappume]_1005-0982854709_20210429141027(34).wav";
-            // string _tempTargetPath = @"D:\SoundFile3CX\Convert\test.mp3";
-
-            // var process = new Process
-            // {
-            //     StartInfo = {
-            //           Arguments = string.Format("\"{0}\" \"{1}\"",
-            //                                     _sourcePath,
-            //                                     _tempTargetPath)
-            //                     }
-            // };
-            // process.StartInfo.FileName = MyBatchFile;
-            // bool b = process.Start();
-
             var result = await _voiceRecordDetailService.GetVoiceRecordURLWithFilter(filter);
+            if (result.Data == "") return NotFound();// เพิ่ม การค้นหาไฟล์
             return Ok(result);
+
+
         }
 
         [HttpGet("voicerecordfile")]
@@ -256,12 +249,36 @@ namespace VoiceRecordAPI.Controllers
             }
             else
             {
-                var fileStream = File(System.IO.File.OpenRead(result.Data), contentType, Path.GetFileName(result.Data));
+                FileStreamResult fileStream = null;
+                if (System.IO.File.Exists(result.Data))
+                {
+                    fileStream = File(System.IO.File.OpenRead(result.Data), contentType, Path.GetFileName(result.Data));
+                }
+                else //find in virtual directory
+                {
+                    WebClient Client = null;
+                    Stream OutputStream = null;
+                    try
+                    {
+                        Client = new WebClient();
+                        Client.Credentials = new NetworkCredential("develop", "pn,9y'8Nlv'ihvp");
+                        OutputStream = Client.OpenRead(result.Data);
+                        if (!OutputStream.CanRead)
+                            return NotFound();
+                        fileStream = File(OutputStream, contentType, Path.GetFileName(result.Data));
+                    }
+                    catch
+                    {
+                        return NotFound();
+                    }
+                };
+
+
+
                 return fileStream;
             }
 
         }
-
 
     }
 }
