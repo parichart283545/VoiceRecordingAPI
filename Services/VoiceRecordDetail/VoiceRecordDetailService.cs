@@ -84,8 +84,9 @@ namespace VoiceRecordAPI.Services
         public async Task<ServiceResponse<string>> GetVoiceRecordURL(string voiceId)
         {
             voiceId = voiceId.Trim(new char[] { ' ' });
-            var queryable = await _dBContext.VoiceRecordDetails.Where(x => x.Id == Convert.ToInt32(voiceId)).AsNoTracking().FirstOrDefaultAsync();
-            if (queryable is null) { return ResponseResult.Success<string>(""); }
+            int voiceInt = Convert.ToInt32(voiceId);
+            var queryable = await _dBContext.VoiceRecordDetails.Where(x => x.Id == voiceInt).AsNoTracking().FirstOrDefaultAsync();
+            if (queryable is null) { return ResponseResult.Failure<string>("Not found"); }
             //Testing begin
             // if (!Directory.Exists(queryable.FilePath))
             //     Directory.CreateDirectory(queryable.FilePath);
@@ -165,60 +166,84 @@ namespace VoiceRecordAPI.Services
 
         public async Task<ServiceResponse<string>> GetVoiceRecordURLWithFilter(RequestParams filter)
         {
-            var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
-
-            //************************************Start Filter*************************************//
-            //DialNumber
-            if (!string.IsNullOrEmpty(filter.DialNumber))
+            GetVoiceRecordURLRequest newUrl = null;
+            //https://voice.devsiamsmile.com/api/VoiceRecordDetail/voicerecordfile?DialNumber=1001&DestinationNumber=1002&CallTypeId=1&RinggingDatetime=2021-04-27 15:44:10.8359757&ReceivedDatetime=2021-04-27 15:44:10.8359757&EndDatetime=2021-03-29 16:42:42.4987347&SystemId=1
+            //string apiUrl = "https://voice.devsiamsmile.com/api/VoiceRecordDetail/voicerecordfile?";
+            try
             {
-                if (!int.TryParse(filter.DialNumber, out int n)) { return ResponseResult.Failure<string>("DialNumber is not numeric"); }
-                queryable = queryable.Where(x => x.PhoneNumberFrom == filter.DialNumber);
-            }
-            //DestinationNumber
-            if (!string.IsNullOrEmpty(filter.DestinationNumber))
-            {
-                if (!int.TryParse(filter.DestinationNumber, out int n1)) { return ResponseResult.Failure<string>("DestinationNumber is not numeric"); }
-                queryable = queryable.Where(x => x.PhoneNumberTo == filter.DestinationNumber);
-            }
-            //ExtensionId
-            if (!string.IsNullOrEmpty(filter.ExtensionId))
-            {
-                if (!int.TryParse(filter.ExtensionId, out int n2)) { return ResponseResult.Failure<string>("ExtensionId is not numeric"); }
-                queryable = queryable.Where(x => x.ExtensionNo == filter.ExtensionId);
-            }
-            //CallType
-            if (!(filter.CallTypeId is null))
-            {
-                queryable = queryable.Where(x => x.CallTypeId == Convert.ToInt32(filter.CallTypeId));
-            }
-            //ReceivedDatetime & EndDatetime
-            //queryable = queryable.Where(x => x.CreatedDate >= ReceivedDatetime && x.CreatedDate <= EndDatetime);
+                var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
+                //************************************Start Filter*************************************//
+                //DialNumber
+                if (!string.IsNullOrEmpty(filter.DialNumber))
+                {
+                    if (!Int64.TryParse(filter.DialNumber, out Int64 n)) { return ResponseResult.Failure<string>("DialNumber is not numeric"); }
+                    queryable = queryable.Where(x => x.PhoneNumberFrom == filter.DialNumber);
+                    //apiUrl = $"{apiUrl}DialNumber={filter.DialNumber}";
+                }
+                //DestinationNumber
+                if (!string.IsNullOrEmpty(filter.DestinationNumber))
+                {
+                    if (!Int64.TryParse(filter.DestinationNumber, out Int64 n1)) { return ResponseResult.Failure<string>("DestinationNumber is not numeric"); }
+                    queryable = queryable.Where(x => x.PhoneNumberTo == filter.DestinationNumber);
+                    //apiUrl = $"{apiUrl}&DestinationNumber={filter.DestinationNumber}";
+                }
+                //ExtensionId
+                // if (!string.IsNullOrEmpty(filter.ExtensionId))
+                // {
+                //     if (!int.TryParse(filter.ExtensionId, out int n2)) { return ResponseResult.Failure<string>("ExtensionId is not numeric"); }
+                //     queryable = queryable.Where(x => x.ExtensionNo == filter.ExtensionId);
+                // }
+                //CallType
 
-            //ringgingDatetime 
-            //receivedDatetime +- no more 5 minutes
-            if (filter.ReceivedDatetime != null)
-            { queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1)); }
+                if (!(filter.CallTypeId is null))
+                {
+                    queryable = queryable.Where(x => x.CallTypeId == filter.CallTypeId);
+                    //apiUrl = $"{apiUrl}&CallTypeId={filter.CallTypeId}";
+                }
+                //ReceivedDatetime & EndDatetime
+                //queryable = queryable.Where(x => x.CreatedDate >= ReceivedDatetime && x.CreatedDate <= EndDatetime);
 
-            //endDatetime
-            if (filter.EndDatetime != null)
+                //ringgingDatetime 
+                //apiUrl = $"{apiUrl}&&RinggingDatetime={filter.ReceivedDatetime}";
+                //receivedDatetime +- no more 5 minutes
+                if (filter.ReceivedDatetime != null)
+                {
+                    queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1));
+                    //apiUrl = $"{apiUrl}&ReceivedDatetime={filter.ReceivedDatetime}";
+                }
+
+                //endDatetime
+                if (filter.EndDatetime != null)
+                {
+                    queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                    //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
+                }
+
+                //System id
+                if (!(filter.SystemId is null))
+                {
+                    queryable = queryable.Where(x => x.VoiceRecordProvidersId == filter.SystemId);
+                    //apiUrl = $"{apiUrl}&SystemId={filter.SystemId}";
+                }
+
+                //************************************End Filter*************************************//
+                //var dtolst = await queryable.AsNoTracking().ToListAsync();
+                //return ResponseResult.Failure<string>($"pass1 count {dtolst.Count()}");
+
+                var dto = await queryable.AsNoTracking().FirstOrDefaultAsync();
+                if (dto is null) { return ResponseResult.Failure<string>("Not found"); }
+                //var VoiceDto = _mapper.Map<GetVoiceRecordDetail>(dto);
+
+
+                //insert request url log
+                newUrl = InsertVoiceRecordURL(dto.Id, dto.FullPath);
+                if (newUrl == null) { return ResponseResult.Failure<string>($"Cannot insert request url"); }
+            }
+            catch (Exception ex)
             {
-                queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                return ResponseResult.Failure<string>($"Query error: {ex.Message}");
             }
 
-            //SystemName
-            if (!string.IsNullOrEmpty(filter.SystemId))
-            {
-                queryable = queryable.Where(x => x.VoiceRecordProvidersId == Convert.ToInt32(filter.SystemId));
-            }
-
-            //************************************End Filter*************************************//
-            var dtolst = await queryable.AsNoTracking().ToListAsync();
-            var dto = await queryable.AsNoTracking().FirstOrDefaultAsync();
-            if (dto is null) { return ResponseResult.Success(""); }
-            //var VoiceDto = _mapper.Map<GetVoiceRecordDetail>(dto);
-
-            //insert request url log
-            var newUrl = InsertVoiceRecordURL(dto.Id, dto.FullPath);
 
             if (newUrl.VoiceRecordDetailURL.Contains("http"))
             {
@@ -232,16 +257,16 @@ namespace VoiceRecordAPI.Services
                         exist = response.StatusCode == HttpStatusCode.OK;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return ResponseResult.Success("");
+                    return ResponseResult.Failure<string>($"Find file on network error : {ex.Message}");
                 }
 
                 if (exist)
                 {
-                     return ResponseResult.Success(newUrl.ResponseURL);
+                    return ResponseResult.Success(newUrl.ResponseURL);
                 }
-                return ResponseResult.Success("");
+                else return ResponseResult.Failure<string>("File not found");
             }
             else
             {
@@ -259,12 +284,12 @@ namespace VoiceRecordAPI.Services
                         Client.Credentials = new NetworkCredential("develop", "pn,9y'8Nlv'ihvp");
                         OutputStream = Client.OpenRead(newUrl.VoiceRecordDetailURL);
                         if (!OutputStream.CanRead)
-                            return ResponseResult.Success("");
+                            return ResponseResult.Failure<string>("Cannot read file");
                         else return ResponseResult.Success(newUrl.ResponseURL);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        return ResponseResult.Success("") ;
+                        return ResponseResult.Failure<string>($"Find file on map drive error : {ex.Message} | InnerException : {ex.InnerException.Message}");
                     }
                 };
             }
@@ -294,11 +319,17 @@ namespace VoiceRecordAPI.Services
         public GetVoiceRecordURLRequest InsertVoiceRecordURL(int voiceRecDetId, string voiceRecDetUrl)
         {
             //Get timeout from configuration
-            var configLst = _dBContext.VoiceRecordConfigurations.Where(x => x.ParameterName == "URLTimeout" || x.ParameterName == "WebDomainFormat").ToList();
+            //var configLst = _dBContext.VoiceRecordConfigurations.Where(x => x.ParameterName == "URLTimeout" || x.ParameterName == "WebDomainFormat").ToList();
+            var configLst = _dBContext.VoiceRecordConfigurations.Where(x => x.ParameterName == "URLTimeout" || x.ParameterName == "InternalAPIAdressFormat").ToList();
             Guid guid = Guid.NewGuid();
-            string encodeGuid = EncodingTo(guid.ToString());
-            string newURL = configLst.Where(x => x.ParameterName == "WebDomainFormat").Select(x => x.ValueString).Single().Replace("{GUID}", encodeGuid);
+
+            //string encodeGuid = EncodingTo(guid.ToString());
+            //string newURL = configLst.Where(x => x.ParameterName == "WebDomainFormat").Select(x => x.ValueString).Single().Replace("{GUID}", encodeGuid);
+
+            string newURL = configLst.Where(x => x.ParameterName == "InternalAPIAdressFormat").Select(x => x.ValueString).Single().Replace("{GUID}", guid.ToString()); ;
+
             DateTime createDT = DateTime.Now;
+
             //Insert raw URL
             try
             {
@@ -323,7 +354,7 @@ namespace VoiceRecordAPI.Services
             {
                 //Write log
                 _log.LogError($"Add VoiceRecordURL is error detail: {ex.Message}");
-                //Return 
+                //Return
                 return null;
             }
         }
@@ -339,7 +370,7 @@ namespace VoiceRecordAPI.Services
         {
             Guid guidTmp = Guid.Parse(guidStr);
             var queryable = await _dBContext.VoiceRecordURLRequests.Where(x => x.Id == guidTmp).AsNoTracking().FirstOrDefaultAsync();
-            if (queryable is null) { return ResponseResult.Success<string>(""); }
+            if (queryable is null) { return ResponseResult.Failure<string>("Not found"); }
             if (queryable.ExpireDatetime <= DateTime.Now)
             {
                 return ResponseResult.Success("Expired");
@@ -355,65 +386,87 @@ namespace VoiceRecordAPI.Services
 
         public async Task<ServiceResponse<string>> GetVoiceRecordFileWithFilter(RequestParams filter)
         {
-            var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
-
-            //************************************Start Filter*************************************//
-            //DialNumber
-            if (!string.IsNullOrEmpty(filter.DialNumber))
+            try
             {
-                if (!int.TryParse(filter.DialNumber, out int n)) { return ResponseResult.Failure<string>("DialNumber is not numeric"); }
-                queryable = queryable.Where(x => x.PhoneNumberFrom == filter.DialNumber);
-            }
-            //DestinationNumber
-            if (!string.IsNullOrEmpty(filter.DestinationNumber))
-            {
-                if (!int.TryParse(filter.DestinationNumber, out int n1)) { return ResponseResult.Failure<string>("DestinationNumber is not numeric"); }
-                queryable = queryable.Where(x => x.PhoneNumberTo == filter.DestinationNumber);
-            }
-            //ExtensionId
-            if (!string.IsNullOrEmpty(filter.ExtensionId))
-            {
-                if (!int.TryParse(filter.ExtensionId, out int n2)) { return ResponseResult.Failure<string>("ExtensionId is not numeric"); }
-                queryable = queryable.Where(x => x.ExtensionNo == filter.ExtensionId);
-            }
-            //CallType
-            if (!(filter.CallTypeId is null))
-            {
-                queryable = queryable.Where(x => x.CallTypeId == Convert.ToInt32(filter.CallTypeId));
-            }
-            //ReceivedDatetime & EndDatetime
-            //queryable = queryable.Where(x => x.CreatedDate >= ReceivedDatetime && x.CreatedDate <= EndDatetime);
+                var queryable = _dBContext.VoiceRecordDetails.AsNoTracking().AsQueryable();
+                //************************************Start Filter*************************************//
+                //DialNumber
+                if (!string.IsNullOrEmpty(filter.DialNumber))
+                {
+                    if (!Int64.TryParse(filter.DialNumber, out Int64 n)) { return ResponseResult.Failure<string>("DialNumber is not numeric"); }
+                    queryable = queryable.Where(x => x.PhoneNumberFrom == filter.DialNumber);
+                    //apiUrl = $"{apiUrl}DialNumber={filter.DialNumber}";
+                }
+                //DestinationNumber
+                if (!string.IsNullOrEmpty(filter.DestinationNumber))
+                {
+                    if (!Int64.TryParse(filter.DestinationNumber, out Int64 n1)) { return ResponseResult.Failure<string>("DestinationNumber is not numeric"); }
+                    queryable = queryable.Where(x => x.PhoneNumberTo == filter.DestinationNumber);
+                    //apiUrl = $"{apiUrl}&DestinationNumber={filter.DestinationNumber}";
+                }
+                //ExtensionId
+                // if (!string.IsNullOrEmpty(filter.ExtensionId))
+                // {
+                //     if (!int.TryParse(filter.ExtensionId, out int n2)) { return ResponseResult.Failure<string>("ExtensionId is not numeric"); }
+                //     queryable = queryable.Where(x => x.ExtensionNo == filter.ExtensionId);
+                // }
+                //CallType
 
-            //ringgingDatetime 
-            //receivedDatetime +- no more 5 minutes
-            if (filter.ReceivedDatetime != null)
-            { queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1)); }
+                if (!(filter.CallTypeId is null))
+                {
+                    queryable = queryable.Where(x => x.CallTypeId == filter.CallTypeId);
+                    //apiUrl = $"{apiUrl}&CallTypeId={filter.CallTypeId}";
+                }
+                //ReceivedDatetime & EndDatetime
+                //queryable = queryable.Where(x => x.CreatedDate >= ReceivedDatetime && x.CreatedDate <= EndDatetime);
 
-            //endDatetime
-            if (filter.EndDatetime != null)
-            {
-                queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                //ringgingDatetime 
+                //apiUrl = $"{apiUrl}&&RinggingDatetime={filter.ReceivedDatetime}";
+                //receivedDatetime +- no more 5 minutes
+                if (filter.ReceivedDatetime != null)
+                {
+                    queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1));
+                    //apiUrl = $"{apiUrl}&ReceivedDatetime={filter.ReceivedDatetime}";
+                }
+
+                //endDatetime
+                if (filter.EndDatetime != null)
+                {
+                    queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                    //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
+                }
+
+                //System id
+                if (!(filter.SystemId is null))
+                {
+                    queryable = queryable.Where(x => x.VoiceRecordProvidersId == filter.SystemId);
+                    //apiUrl = $"{apiUrl}&SystemId={filter.SystemId}";
+                }
+
+                //************************************End Filter*************************************//
+                //var dtolst = await queryable.AsNoTracking().ToListAsync();
+                //return ResponseResult.Failure<string>($"pass1 count {dtolst.Count()}");
+
+                var dto = await queryable.AsNoTracking().FirstOrDefaultAsync();
+                if (dto is null) { return ResponseResult.Failure<string>("Not found"); }
+                //var VoiceDto = _mapper.Map<GetVoiceRecordDetail>(dto);
+
+                //insert request url log
+                var reesultInsert = InsertVoiceRecordURL(dto.Id, dto.FullPath);
+                if (reesultInsert == null) { return ResponseResult.Failure<string>($"Cannot insert request url"); }
+                return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
+
             }
-
-            //SystemName
-            if (!string.IsNullOrEmpty(filter.SystemId))
+            catch (Exception ex)
             {
-                queryable = queryable.Where(x => x.VoiceRecordProvidersId == Convert.ToInt32(filter.SystemId));
+                return ResponseResult.Failure<string>($"Query error: {ex.Message}");
             }
-
-            //************************************End Filter*************************************//
-            var dtolst = await queryable.AsNoTracking().ToListAsync();
-            var dto = await queryable.AsNoTracking().FirstOrDefaultAsync();
-            if (dto is null) { return ResponseResult.Success(""); }
-            //var VoiceDto = _mapper.Map<GetVoiceRecordDetail>(dto);
-
-            //insert request url log
-            var reesultInsert = InsertVoiceRecordURL(dto.Id, dto.FullPath);
-            return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
             // if (!File.Exists(reesultInsert.VoiceRecordDetailURL))
             //     return ResponseResult.Success<string>("");
             // else return ResponseResult.Success(reesultInsert.VoiceRecordDetailURL);
 
         }
+
+
     }
 }

@@ -6,14 +6,14 @@ namespace VoiceRecordAPI.DTOs
     public class RequestParams
     {
         // [Required]
-        // [StringLength(10)]
+        [StringLength(13)]
         public string DialNumber { get; set; }
         // [Required]
-        // [StringLength(10)]
+        [StringLength(13)]
         public string DestinationNumber { get; set; }
         // [Required]
-        // [StringLength(6)]
-        public string CallTypeId { get; set; }
+        [Range(0, 4)]
+        public int? CallTypeId { get; set; }
         // [Required]
         public DateTime? RinggingDatetime { get; set; }
         // [Required]
@@ -22,9 +22,10 @@ namespace VoiceRecordAPI.DTOs
         public DateTime? EndDatetime { get; set; }
         // [Required]
         // [StringLength(255)]
-        public string ExtensionId { get; set; }
+        //public string ExtensionId { get; set; }
         // [Required]
-        // [StringLength(6)]
-        public string SystemId { get; set; }
+        //[MaxLength(2)]
+        [Range(0, 10)]
+        public int? SystemId { get; set; }
     }
 }
