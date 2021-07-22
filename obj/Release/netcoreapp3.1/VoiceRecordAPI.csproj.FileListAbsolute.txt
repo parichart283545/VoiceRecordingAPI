@@ -82,7 +82,6 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Rel
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
-D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Release\netcoreapp3.1\VoiceRecordAPI.csprojAssemblyReference.cache
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Release\netcoreapp3.1\VoiceRecordAPI.AssemblyInfoInputs.cache
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Release\netcoreapp3.1\VoiceRecordAPI.AssemblyInfo.cs
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Release\netcoreapp3.1\VoiceRecordAPI.csproj.CoreCompileInputs.cache
@@ -107,3 +106,4 @@ D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Rel
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\Research Project\Voice Recoder Get Path\VoiceRecordAPI\VoiceRecordAPI\obj\Release\netcoreapp3.1\VoiceRecordAPI.csproj.AssemblyReference.cache

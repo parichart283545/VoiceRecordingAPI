@@ -119,7 +119,7 @@ namespace VoiceRecordAPI
 
             //------End: Swagger------
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

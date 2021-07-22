@@ -208,16 +208,18 @@ namespace VoiceRecordAPI.Services
                 //receivedDatetime +- no more 5 minutes
                 if (filter.ReceivedDatetime != null)
                 {
-                    queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) && x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1));
+                    queryable = queryable.Where(x => x.FileCreateDatetime >= filter.ReceivedDatetime.Value.AddMinutes(-1) &&
+                     x.FileCreateDatetime <= filter.ReceivedDatetime.Value.AddMinutes(1));
                     //apiUrl = $"{apiUrl}&ReceivedDatetime={filter.ReceivedDatetime}";
                 }
 
                 //endDatetime
-                if (filter.EndDatetime != null)
-                {
-                    queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
-                    //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
-                }
+                // if (filter.EndDatetime != null)
+                // {
+                //     queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) &&
+                //      x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                //     //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
+                // }
 
                 //System id
                 if (!(filter.SystemId is null))
@@ -430,11 +432,11 @@ namespace VoiceRecordAPI.Services
                 }
 
                 //endDatetime
-                if (filter.EndDatetime != null)
-                {
-                    queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
-                    //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
-                }
+                // if (filter.EndDatetime != null)
+                // {
+                //     queryable = queryable.Where(x => x.FileModifyDatetime >= filter.EndDatetime.Value.AddMinutes(-1) && x.FileModifyDatetime <= filter.EndDatetime.Value.AddMinutes(1));
+                //     //apiUrl = $"{apiUrl}&EndDatetime={filter.EndDatetime}";
+                // }
 
                 //System id
                 if (!(filter.SystemId is null))

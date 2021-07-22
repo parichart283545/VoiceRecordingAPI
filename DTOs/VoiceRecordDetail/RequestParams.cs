@@ -19,7 +19,7 @@ namespace VoiceRecordAPI.DTOs
         // [Required]
         public DateTime? ReceivedDatetime { get; set; }
         // [Required]
-        public DateTime? EndDatetime { get; set; }
+        //public DateTime? EndDatetime { get; set; }
         // [Required]
         // [StringLength(255)]
         //public string ExtensionId { get; set; }
